@@ -223,12 +223,13 @@ $(function(){
 								function (e) {
 									all_noteon++;
 									Noteon_show.text(all_noteon);
-
+									
 									timeNext = (new Date()).valueOf();
 									timeInterval = timeNext - timePrevious;
 									timePrevious = timeNext;
 
-									if( timeInterval > timeIntervalMax ){
+									// 前1000数据次忽略		
+									if( timeInterval > timeIntervalMax && all_noteon > 1000){
 										timeIntervalMax = timeInterval;
 									}	
 									

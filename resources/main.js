@@ -264,7 +264,7 @@ $(function(){
 										if (all_noteon == 11001){
 											timeCollection.splice(0, 1001);
 											var avgTime = avgFun(timeCollection);
-											alert("平均延时时间: " + avgTime.toString() + "ms" + "\n" + "最大延时时间: " + timeIntervalMax.toString() + "ms");
+											alert("平均延时时间: " + avgTime.toString() + "ms" + "\n" + "最大延时时间: " + timeIntervalMax.toString() + "ms" + "\n" + "最小延时时间: " + timeIntervalMin.toString() + "ms");
 										}
 									}
 

@@ -253,6 +253,7 @@ $(function(){
 											timeCollection.splice(0, 1001);
 											var avgTime = avgFun(timeCollection);
 											alert("平均延时时间: " + avgTime.toString() + "ms" + "\n" + "最大延时时间: " + timeIntervalMax.toString() + "ms");
+											timeIntervalMax = 0;
 										}
 									}
 
@@ -741,6 +742,8 @@ $(function(){
 		all_channelaftertouch = 0;	
 		all_pitchbend = 0;		
 		all_sysex = 0;	
+
+		timeIntervalMax = 0;
 
 		Noteoff_show.text(0);
 		Noteon_show.text(0);

@@ -78,6 +78,7 @@ $(function(){
 	var timeNext = 0;
 	var timeInterval = 0;
 	var timeIntervalMax = 0;
+	var timeIntervalMin = 0;
 
 
 
@@ -228,11 +229,7 @@ $(function(){
 									timeInterval = timeNext - timePrevious;
 									timePrevious = timeNext;
 
-									// 前1000数据次忽略		
-									if( timeInterval > timeIntervalMax && all_noteon > 1000){
-										timeIntervalMax = timeInterval;
-									}	
-									
+
 									// Audio Play
 									if (isAudio) {
 										var freq = midicps.at(e.data[1]);
@@ -245,6 +242,21 @@ $(function(){
 
 									/* for Loop test */
 									if (isLoop) {
+										
+										// 前1000数据次忽略		
+										if( timeInterval > timeIntervalMax && all_noteon > 1000){
+											timeIntervalMax = timeInterval;
+										}
+										
+										if( all_noteon > 1000 )
+										{
+											if( timeIntervalMin == 0 ){
+												timeIntervalMin = timeInterval;
+											}
+											else if( timeInterval < timeIntervalMin ){
+												timeIntervalMin = timeInterval;
+											}
+										}
 
 										output.send(e.data[0], [e.data[1], e.data[2]]); 
 
@@ -253,7 +265,6 @@ $(function(){
 											timeCollection.splice(0, 1001);
 											var avgTime = avgFun(timeCollection);
 											alert("平均延时时间: " + avgTime.toString() + "ms" + "\n" + "最大延时时间: " + timeIntervalMax.toString() + "ms");
-											timeIntervalMax = 0;
 										}
 									}
 

@@ -80,8 +80,6 @@ $(function(){
 	var timeIntervalMax = 0;
 	var timeIntervalMin = 0;
 
-
-
 	// show or hide the panel-body  -- Output
 	outputHeader.click(function(){
 		if (outputShow % 2 == 0) {
@@ -169,6 +167,8 @@ $(function(){
 			} else {
 				console.log(WebMidi.sysexEnabled);
 
+				
+
 				if ($("#devices").children().length == 0) {
 					for (var i = 0; i < WebMidi.outputs.length; i++) {
 
@@ -239,7 +239,6 @@ $(function(){
 									}
 
 
-
 									/* for Loop test */
 									if (isLoop) {
 										
@@ -264,6 +263,7 @@ $(function(){
 										if (all_noteon == 11001){
 											timeCollection.splice(0, 1001);
 											var avgTime = avgFun(timeCollection);
+											f_txt.writeLine("wo shi di yi hang");
 											alert("平均延时时间: " + avgTime.toString() + "ms" + "\n" + "最大延时时间: " + timeIntervalMax.toString() + "ms" + "\n" + "最小延时时间: " + timeIntervalMin.toString() + "ms");
 										}
 									}

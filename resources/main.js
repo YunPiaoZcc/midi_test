@@ -80,6 +80,10 @@ $(function(){
 	var timeIntervalMax = 0;
 	var timeIntervalMin = 0;
 
+	var temp_loop_setp = 0;
+	var temp_loop_flag = 0;
+	var temp_loop_vval = 0;
+
 	// var fso = new ActiveXObject(Scripting.FileSystemObject);
 
 	// var f_txt = fso.createtextfile("C:\Users\Administrator\Desktop\txt", true);
@@ -231,7 +235,6 @@ $(function(){
 							// Note On Listener
 							input.addListener('noteon', "all", 
 								function (e) {
-									all_noteon++;
 									Noteon_show.text(all_noteon);
 									
 									timeNext = (new Date()).valueOf();
@@ -251,11 +254,6 @@ $(function(){
 									/* for Loop test */
 									if (isLoop) {
 										
-										// 前1000数据次忽略		
-										if( timeInterval > timeIntervalMax && all_noteon > 1000){
-											timeIntervalMax = timeInterval;
-										}
-										
 										if( all_noteon > 1000 )
 										{
 											if( timeIntervalMin == 0 ){
@@ -266,13 +264,48 @@ $(function(){
 											}
 										}
 
+										if( temp_loop_flag )
+										{
+											temp_loop_setp++;
+										}
+
+										if( temp_loop_setp > 3 )
+										{
+											all_noteon++;
+
+											temp_loop_vval = timeInterval;
+
+											if( timeInterval > timeIntervalMax && all_noteon > 1000){
+												timeIntervalMax = timeInterval;
+											}
+
+											timeCollection.push(timeInterval);
+										}
+
+										if( temp_loop_vval > 70 && temp_loop_setp > 3 && all_noteon > 1000 )
+										{
+											if (!isContinue) {		
+												
+												setLoop.attr("class", "btn btn-danger col-md-5 col-md-offset-1");
+												loopSign.attr("class", "glyphicon glyphicon-remove-sign");	
+												isLoop = false;
+												setLoopTime++;
+												temp_loop_setp = 0;
+												temp_loop_flag = 0;
+												temp_loop_vval = 0;
+											
+											} else {
+												alert("Sorry! [Continue] and [Loop] can't be opened at the same time!");
+											}	
+										}
+
 										output.send(e.data[0], [e.data[1], e.data[2]]); 
 
-										timeCollection.push(timeInterval);
 										if (all_noteon == 11001){
 											timeCollection.splice(0, 1001);
 											var avgTime = avgFun(timeCollection);
 											alert("平均延时时间: " + avgTime.toString() + "ms" + "\n" + "最大延时时间: " + timeIntervalMax.toString() + "ms" + "\n" + "最小延时时间: " + timeIntervalMin.toString() + "ms");
+											isLoop = false;
 										}
 									}
 
@@ -599,6 +632,11 @@ $(function(){
 							// Note On C3
 							noteon.click(function(){
 								output.playNote("C3", 1, {velocity: 1});
+
+								if( isLoop )
+								{
+									temp_loop_flag = 1;
+								}
 							});	
 
 							// Note Off C3
@@ -793,6 +831,12 @@ $(function(){
 		}
 		avg = (sum / arr.length).toFixed(1);
 		return avg;
+	}
+
+	function SetLoopFalse(){
+		setLoop.attr("class", "btn btn-danger col-md-5 col-md-offset-1");
+		loopSign.attr("class", "glyphicon glyphicon-remove-sign");	
+		isLoop = false;
 	}
 
 });

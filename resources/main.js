@@ -241,7 +241,6 @@ $(function(){
 									timeInterval = timeNext - timePrevious;
 									timePrevious = timeNext;
 
-
 									// Audio Play
 									if (isAudio) {
 										var freq = midicps.at(e.data[1]);
@@ -249,7 +248,6 @@ $(function(){
 										// var freq = midicps.at(e.data[1] + 12);
 										synth.noteOnWithFreq(freq, 100);
 									}
-
 
 									/* for Loop test */
 									if (isLoop) {
@@ -282,22 +280,22 @@ $(function(){
 											timeCollection.push(timeInterval);
 										}
 
-										if( temp_loop_vval > 70 && temp_loop_setp > 3 && all_noteon > 1000 )
-										{
-											if (!isContinue) {		
+										// if( temp_loop_vval > 70 && temp_loop_setp > 3 && all_noteon > 1000 )
+										// {
+										// 	if (!isContinue) {		
 												
-												setLoop.attr("class", "btn btn-danger col-md-5 col-md-offset-1");
-												loopSign.attr("class", "glyphicon glyphicon-remove-sign");	
-												isLoop = false;
-												setLoopTime++;
-												temp_loop_setp = 0;
-												temp_loop_flag = 0;
-												temp_loop_vval = 0;
+										// 		setLoop.attr("class", "btn btn-danger col-md-5 col-md-offset-1");
+										// 		loopSign.attr("class", "glyphicon glyphicon-remove-sign");	
+										// 		isLoop = false;
+										// 		setLoopTime++;
+										// 		temp_loop_setp = 0;
+										// 		temp_loop_flag = 0;
+										// 		temp_loop_vval = 0;
 											
-											} else {
-												alert("Sorry! [Continue] and [Loop] can't be opened at the same time!");
-											}	
-										}
+										// 	} else {
+										// 		alert("Sorry! [Continue] and [Loop] can't be opened at the same time!");
+										// 	}	
+										// }
 
 										output.send(e.data[0], [e.data[1], e.data[2]]); 
 
